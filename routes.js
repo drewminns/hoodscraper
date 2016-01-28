@@ -1,23 +1,21 @@
 'use strict';
 
-let x = require('x-ray')(),
+const x = require('x-ray')().limit(3),
 		Promise = require('bluebird');
 
-let routes = {};
+const routes = {};
 
 routes.home = (req, res) => {
 	res.sendfile(__dirname + '/public/index.html');
 }
 
-let getInfo = Promise.promisify(x('http://toronto.craigslist.ca/search/tor/apa#list', 'p.row', [{
+const getInfo = Promise.promisify(x('http://toronto.craigslist.ca/search/tor/apa?is_paid=all&hasPic=1#grid', 'p.row', [{
   title: 'span.txt span.pl a.hdrlnk',
   posted: 'span.txt span.pl time@datetime',
   price: 'span.txt span.l2 span.price',
   rooms: 'span.txt span.l2 span.housing',
   link: 'span.txt span.pl a.hdrlnk@href',
-  details: x('span.txt span.pl a.hdrlnk', 'html' [{
-  	title: 'title'
-  }])
+  image: 'a@data-ids'
 }]));
 
 routes.craigslist = (req, res) => {
@@ -27,5 +25,4 @@ routes.craigslist = (req, res) => {
 	});
 }
 
-// Ship it!
 module.exports = routes;

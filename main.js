@@ -1,7 +1,7 @@
 'use strict';
 let express = require('express'),
 		app = express(),
-		port = process.env.port || 3030,
+		port = process.env.port || 5000,
 		morgan = require('morgan'),
 		path = require('path'),
 		routes = require('./routes.js');

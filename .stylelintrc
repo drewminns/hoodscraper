@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "string-quotes" : "double",
+    "number-leading-zero" : "never",
+    "number-zero-length-no-unit" : true,
+    "value-list-comma-space-before" : "never",
+    "value-list-comma-space-after" : "always",
+    "declaration-colon-space-after" : "always",
+    "block-no-empty" : true,
+    "block-opening-brace-space-before" : "always",
+    "selector-combinator-space-after" : "always",
+    "selector-combinator-space-before" : "always",
+    "selector-pseudo-element-colon-notation" : "double",
+    "rule-no-duplicate-properties" : true,
+    "rule-trailing-semicolon" : "always"
+  }
+}

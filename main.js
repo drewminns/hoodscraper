@@ -10,7 +10,7 @@ let express = require('express'),
 app.use(morgan('dev'));
 app.use(express.static(__dirname + '/public'));
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Credentials', true);
   	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
@@ -18,8 +18,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/', (req,res) => {
-	res.send('home page');
-});
-app.get('/api', routes.craigslist);
+app.get('/', (req,res) => res.send('home page'));
+app.get('/api', routes.scrape);
 app.listen(port);

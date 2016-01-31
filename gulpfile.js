@@ -19,7 +19,6 @@ const lint = [
 
 const postcss = [
 	require('css-mqpacker')(),
-	require('postcss-discard-comments')(),
 	require('postcss-discard-duplicates')(),
 	require('postcss-unique-selectors')(),
 	require('pixrem')(),

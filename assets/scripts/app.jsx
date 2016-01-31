@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 
 const Card = React.createClass({
 	displayImages(key, data) {
-		const link = `http://images.craigslist.org/${data}_300x300.jpg`
+		let link = data;
+		if (!data.startsWith('http://i.ebayimg')) {
+			link = `http://images.craigslist.org/${data}_300x300.jpg`
+		}
 		return (
 			<li key={key}><img src={link} alt={link} /></li>
 		)

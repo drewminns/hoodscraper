@@ -1,5 +1,4 @@
-@import "partials/normalize";
-
-body {
-	font-size: 18px;
-}
+@import "utilities/normalize";
+@import "utilities/tools";
+@import "utilities/brand";
+@import "utilities/typography";

@@ -9,6 +9,7 @@ const gulp = require('gulp'),
 			browserSync = require('browser-sync'),
 			$ = require('gulp-load-plugins')(),
 			historyApiFallback = require('connect-history-api-fallback'),
+			scss = require("postcss-scss"),
 			reload = browserSync.reload;
 
 const lint = [
@@ -37,7 +38,7 @@ gulp.task('styles', () => {
 			})	
 		}))
 		.pipe($.sourcemaps.init())
-		.pipe($.postcss(lint))
+		.pipe($.postcss(lint, { syntax: scss }))
 		.pipe($.sass().on('error', $.sass.logError))
 		.pipe($.postcss(postcss))
 		.pipe($.sourcemaps.write('.'))

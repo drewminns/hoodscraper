@@ -1,11 +1,11 @@
-
+$base-px: 1.3rem !default;
 
 
 html { font-size: 62.5%; }
 
 // 1.333 Perfect Fourth
 body {
-	font-size: $base-px-default;
+	font-size: $base-px;
 	line-height: 1.428;
 	@include print-styles($body);
 }
@@ -20,6 +20,7 @@ h1, h2, h3, h4, h5, h6 { font-family: inherit; }
 h1, h2, h3, h4, h5, h6 {
 	color: inherit;
 	line-height: 1.1;
+	letter-spacing: -.04em;
 	@include print-styles($headings)
 }
 

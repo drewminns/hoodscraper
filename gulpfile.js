@@ -74,7 +74,7 @@ gulp.task('bs', () => {
 	})
 });
 
-gulp.task('default', ['start', 'styles', 'scripts' ,'bs'], () => {
+gulp.task('default', ['styles', 'scripts' ,'bs'], () => {
 	gulp.watch('./assets/styles/**/*.scss', ['styles']);
 	gulp.watch('./assets/scripts/**/*.jsx', ['scripts']);
 });

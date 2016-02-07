@@ -20,34 +20,18 @@ routes.scrape = (req, res) => {
 		kjCode : 'c37l1700273'
 	};
 
-	switch (queryParams.city) {
-		case 'toronto':
-				queryParams.kjCode = 'c37l1700273';
-			break;
-		case 'halifax':
-				queryParams.kjCode = 'c37l1700321';
-			break;
-		case 'vancouver':
-				queryParams.kjCode = 'c37l1700287';
-			break;
-		case 'hamilton':
-				queryParams.kjCode = 'c37l80014';
-			break;
-		case 'edmonton' :
-				queryParams.kjCode = 'c37l1700203';
-			break;
-		case 'montreal' :
-				queryParams.kjCode = 'c37l1700281';
-			break;
-		case 'victoria' :
-			queryParams.kjCode = 'c37l1700173';
-			break;
-		case 'ottawa' :
-			queryParams.kjCode = 'c37l1700185';
-			break;
+	let codes = {
+		'toronto' : 'c37l1700273',
+		'halifax' : 'c37l1700321',
+		'vancouver' : 'c37l1700287',
+		'hamilton' : 'c37l80014',
+		'edmonton' : 'c37l1700203',
+		'montreal' : 'c37l1700281',
+		'victoria' : 'c37l1700173',
+		'ottawa' : 'c37l1700185'
 	}
 
-
+	queryParams.kjCode = codes[queryParams.city];
 
 	const getCL = Promise.promisify(x(`http://${queryParams.city}.craigslist.com/search/apa?is_paid=all&hasPic=1&bedrooms=${queryParams.rooms}&min_price=${queryParams.minPrice}&max_price=${queryParams.maxPrice}&query=${queryParams.query}#grid`, 'p.row', [{
 	  title: 'span.txt span.pl a.hdrlnk',
@@ -58,7 +42,7 @@ routes.scrape = (req, res) => {
 	  image: 'a@data-ids'
 	}]));
 	
-	const getKJ = Promise.promisify(x(`http://www.kijiji.ca/b-${queryParams.rooms}-bedroom-apartments-condos/city-of-${queryParams.city}/${queryParams.query}/${queryParams.kjCode}?gpTopAds=y&price=${queryParams.minPrice}__${queryParams.maxPrice}`, 'table.regular-ad', [{
+	const getKJ = Promise.promisify(x(`http://www.kijiji.ca/b-${queryParams.rooms}-bedroom-apartments-condos/city-of-${queryParams.city}/${queryParams.query}/${queryParams.kjCode}?price=${queryParams.minPrice}__${queryParams.maxPrice}&gpTopAds=y`, 'table.regular-ad', [{
 	  title: 'td.description a',
 	  price: 'td.price',
 	  posted: 'td.posted',
@@ -66,10 +50,11 @@ routes.scrape = (req, res) => {
 	  image: 'td.image img@src'
 	}]));
 
-	console.log(`http://www.kijiji.ca/b-${queryParams.rooms}-bedroom-apartments-condos/city-of-${queryParams.city}/${queryParams.query}/${queryParams.kjCode}?gpTopAds=y&price=${queryParams.minPrice}__${queryParams.maxPrice}`)
-
 	res.contentType('application/json');
-	Promise.join( getCL(), getKJ(), (cl, kj) => res.send(cl.concat(kj)) );
+	Promise.join( getCL(), getKJ(), (cl, kj) => { 
+		console.log(cl);
+		res.send(cl.concat(kj));
+	});
 };
 
 module.exports = routes;

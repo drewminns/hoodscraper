@@ -2,3 +2,52 @@
 @import "utilities/brand";
 @import "utilities/tools";
 @import "utilities/typography";
+
+@lost flexbox flex;
+
+body {
+	min-height: 100vh;
+	background: #2726EA;
+}
+
+img {
+	max-width: 100%;
+}
+
+/*===========================================
+=            Structural Partials            =
+===========================================*/
+
+@import "partials/header";
+
+section.results {
+	width: calc(100% - 300px);
+	margin-left: 300px;
+	lost-flex-container: row;
+	padding: 2.5rem;
+	border-radius: 2px;
+	article.results-card_rental {
+		lost-waffle: 1/4;
+		position: relative;
+		box-shadow: 0 0 25px rgba(0,0,0, .3);
+		background: white;
+	}
+}
+
+header.results-features {
+	height: 300px;
+	overflow: hidden;
+	img {
+		width: 100%;
+	}
+}
+
+ul.rental-images {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	li:not(:first-child) {
+		display: none;
+	}
+}
+

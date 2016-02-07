@@ -1,32 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Form from './form/index.jsx';
+import PadCard from './card/index.jsx';
 
-const Card = React.createClass({
-	displayImages(key, data) {
-		let link = data;
-		if (!data.startsWith('http://i.ebayimg')) {
-			link = `http://images.craigslist.org/${data}_300x300.jpg`
-		}
-		return (
-			<li key={key}><img src={link} alt={link} /></li>
-		)
-	},
-	render() {
-		const content = this.props.content;
-		const imageLinks = content.image.split(",").map(link => link.replace(/(0:)/g, ''));
-		return (
-			<article className="rental">
-				<p className="rental-title"><a href={content.link}>{content.title}</a></p>
-				<p className="posted">Posted on: {content.posted}</p>
-				<p className="rooms">{content.rooms}</p>
-				<p className="price">{content.price}</p>
-				<ul className="rental-images">
-					{imageLinks.map((obj, i) => this.displayImages(i, obj))}
-				</ul>
-			</article>
-		)
-	}
-});
 
 const App = React.createClass({
 	getInitialState() {
@@ -41,26 +17,19 @@ const App = React.createClass({
 	},
 	displayPost(key) {
 		return (
-			<Card key={key} content={this.state.posts[key]} />
+			<PadCard key={key} content={this.state.posts[key]} />
 		)
 	},
-	handleCity(e) {
-		this.setState({ city: e.target.value });
+	getInfo(data) {
+		this.setState({
+			city: data.city,
+			bedrooms: data.bedrooms,
+			min_price: data.min_price,
+			max_price: data.max_price,
+			query: data.query
+		}, () => {this.inputHandle()})
 	},
-	handleQuery(e) {
-		this.setState({ query: e.target.value });
-	},
-	handleRooms(e) {
-		this.setState({ bedrooms: e.target.value });
-	},
-	handleMinPrice(e) {
-		this.setState({ min_price: e.target.value });
-	},
-	handleMaxPrice(e) {
-		this.setState({ max_price: e.target.value });
-	},
-	inputHandle(e) {
-		e.preventDefault();
+	inputHandle() {
 		const data = $.ajax({
 			url: `http://localhost:5000/api?rooms=${this.state.bedrooms}&city=${this.state.city}&min_price=${this.state.min_price}&max_price=${this.state.max_price}&query=${this.state.query}`,
 			method: 'GET',
@@ -73,27 +42,14 @@ const App = React.createClass({
   render() {
   	const posts = this.state.posts;
     return (
-      <div>
-      	<header className="searchbar">
-      		<form onSubmit={this.inputHandle}>
-      			<select onChange={this.handleCity}>
-      				<option value="toronto">Toronto</option>
-      				<option value="vancouver">Vancouver</option>
-      				<option value="hamilton">Hamilton</option>
-      				<option value="edmonton">Edmonton</option>
-      				<option value="montreal">Montreal</option>
-      				<option value="victoria">Victoria</option>
-      				<option value="halifax">Halifax</option>
-      				<option value="ottawa">Ottawa</option>
-      			</select>
-						<input type="text" onChange={this.handleQuery} placeholder="Neighbourhood" />
-						<input type="number" onChange={this.handleRooms} placeholder="Rooms" defaultValue="1"/>
-						<input type="num" onChange={this.handleMinPrice} placeholder="Min Price" defaultValue="0"/>
-						<input type="num" onChange={this.handleMaxPrice} placeholder="Min Price" defaultValue="5000"/>
-						<input type="submit"/>
-      		</form>
+      <div className="flex-wrapper">
+      	<header className="top-nav">
+      		<h1>Hood</h1>
+	      	<Form getInfo={this.getInfo} />
       	</header>
-      	{this.state.posts.map((obj, i) => this.displayPost(i))}
+      	<section className="results">
+	      	{this.state.posts.map((obj, i) => this.displayPost(i))}
+      	</section>
       </div>
     );
   }
